@@ -1,17 +1,15 @@
-# 종목 코드 가져오기
-# https://wikidocs.net/3686
+# 과거 데이터 구하기
+# https://wikidocs.net/3684
 import win32com.client
 
-instCpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
+instStockChart = win32com.client.Dispatch("CpSysDib.StockChart")
 
-# CetStockListByMarket 메서드의 인자로 1을 전달하면 유가증권시장의 종목을 파이썬 튜플 형태로 반환받을 수 있음
-codeList = instCpCodeMgr.GetStockListByMarket(1)
-nlines = 0
-filename = 'kospi.csv'
-f = open(filename, 'w')
-for code in codeList:
-    name = instCpCodeMgr.CodeToName(code)
-    f.write("%s,%s\n" % (code, name))
-    nlines += 1
-f.close()
-print(f'{nlines} symbols written to "{filename}"')
+instStockChart.SetInputValue(0, "A003540")
+instStockChart.SetInputValue(1, ord('2'))
+instStockChart.SetInputValue(4, 10)
+instStockChart.SetInputValue(5, 5)
+instStockChart.SetInputValue(6, ord('D'))
+instStockChart.SetInputValue(9, ord('1'))
+
+instStockChart.BlockRequest()
+numData = instStockChart.GetHeaderValue(3)

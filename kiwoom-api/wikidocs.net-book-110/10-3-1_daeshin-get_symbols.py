@@ -11,7 +11,10 @@ filename = 'kospi.csv'
 f = open(filename, 'w')
 for code in codeList:
     name = instCpCodeMgr.CodeToName(code)
-    f.write("%s,%s\n" % (code, name))
+    type = instCpCodeMgr.GetStockSectionKind(code)
+    line = "%s,%s,%d" % (code, name, type)
+    print(line)
+    f.write("%s\n" % (line))
     nlines += 1
 f.close()
 print(f'{nlines} symbols written to "{filename}"')
